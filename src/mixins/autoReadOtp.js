@@ -10,6 +10,7 @@ export default {
             if (form) {
               form.addEventListener("submit", e => {
                 ac.abort();
+                alert('ac abort')
               });
             }
             navigator.credentials

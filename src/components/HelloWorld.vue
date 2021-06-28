@@ -4,7 +4,7 @@
       <form method="post">
         Enter OTP here:
         <input type="text" autocomplete="one-time-code" inputmode="numeric" v-model="otpInput" name="one-time-code" />
-        <input type="submit" ref="otpInputRef" />
+        <input type="submit" @click="submitForm" ref="otpInputRef" />
       </form>
     </div>
   </div>
@@ -24,6 +24,9 @@ export default {
   methods: {
     onAutoReadOtp(otpCode) {
       this.otpInput = otpCode;
+    },
+    submitForm() {
+      alert('form submitted')
     }
   },
   
