@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="padding: 5px; 10px; margin: 10px 0;">
+    <div style="border:1px solid; padding: 5px; 10px; margin: 10px 0;">
       <form method="post">
         Enter OTP here:
         <input type="text" autocomplete="one-time-code" inputmode="numeric" name="one-time-code" />
@@ -14,19 +14,34 @@
 export default {
   data() {
     return {
-      otpInput: ""
-    };
+      otpInput: ''
+    }
   },
   mounted() {
     if ("OTPCredential" in window) {
-      navigator.credentials
-        .get({ otp: { transport: ["sms"] }, signal: ac.signal })
-        .then(otp => {
-          this.otpInput = otp.code;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      window.addEventListener("DOMContentLoaded", e => {
+        const input = document.querySelector('input[autocomplete="one-time-code"]');
+        if (!input) return;
+        const ac = new AbortController();
+        const form = input.closest("form");
+        if (form) {
+          form.addEventListener("submit", e => {
+            ac.abort();
+          });
+        }
+        navigator.credentials
+          .get({
+            otp: { transport: ["sms"] },
+            signal: ac.signal
+          })
+          .then(otp => {
+            this.otpInput = otp.code;
+            if (form) form.submit();
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
     }
   }
 };
