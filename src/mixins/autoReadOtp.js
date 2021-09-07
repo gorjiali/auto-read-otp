@@ -2,7 +2,6 @@ export default {
    methods: {
       useWebOtpApi() {
         if ("OTPCredential" in window) {
-          window.addEventListener("DOMContentLoaded", e => {
             const input = document.querySelector('input[autocomplete="one-time-code"]');
             if (!input) return;
             const ac = new AbortController();
@@ -19,7 +18,6 @@ export default {
                this.onAutoReadOtp(otp.code);
               })
               .catch(() => {});
-          });
         }
       }
     },
